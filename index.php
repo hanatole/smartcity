@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div id="mymap"></div>
-	<button id="pointbtn">Place point</button>Color:
+	<button id="pointbtn" class="btn btn-primary">Place point</button>Color:
 	<select id="pointcolor">
 		<option>Blue</option>
 		<option>Red</option>
@@ -18,7 +18,7 @@
 		<option>Orange</option>
 		<option>Black</option>
 	</select>
-	<button id="pathbtn">Draw path</button>Color:
+	<button id="pathbtn" class="btn btn-primary">Draw path</button>Color:
 	<select id="pathcolor">
 		<option>Blue</option>
 		<option>Red</option>
@@ -47,15 +47,19 @@
 		<option value="marker3.png">Marker3</option>
 		<option value="marker4.png">Marker4</option>
 	</select>
-	<select id="tile">
-		<option>Openstreetmap</option>
-		<option>Mapbox/satellite-v9</option>
-		<option>Mapbox/streets-v11</option>		
+	<select id="tile" >
+		<option>Osmap</option>
+		<option>MB Satellite</option>
+		<option>OS France</option>
+		<option>MB Terrain</option>
+		<option>MB Streets</option>
+		<option>MB Hybrid</option>	
 	</select>
-	<button id="simulate">Simulate</button>
-	<button id="clear">Clear</button>
-	<button id="save">Save</button>
-	<button id="read">Retrieve</button>
+	<button id="simulate" class="btn btn-primary">Simulate</button>
+	<button id="clear" class="btn btn-primary">Clear</button>
+	<button id="save" class="btn btn-primary">Save</button>
+	<button id="read" class="btn btn-primary">Retrieve</button>
+	
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
 				   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
 		   crossorigin=""></script>
