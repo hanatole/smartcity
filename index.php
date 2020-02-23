@@ -48,8 +48,8 @@
 		<option value="marker4.png">Marker4</option>
 	</select>
 	<select id="tile" >
-		<option>Osmap</option>
 		<option>MB Satellite</option>
+		<option>Osmap</option>
 		<option>OS France</option>
 		<option>MB Terrain</option>
 		<option>MB Streets</option>
