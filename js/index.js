@@ -1,22 +1,43 @@
-const mymap = L.map("mymap").setView([51.508, -0.11],13),marker = L.marker(),
+const mymap = L.map("mymap").setView([43.3151, 0.3656],13),marker = L.marker(),
 path = L.polyline([],{weight:2}).addTo(mymap);
 
 let pen="up", points=[], reference=null, positions=[], paces=[], pointcolor="blue", pathcolor="blue",
 firstpoint = true, currentTile = null;
-let tiles = {	openstreetmap:['https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+let tiles = {
+				"Osmap":['https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 					{attribution:' <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 				}],
-				'mapbox/streets-v11':['https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
-				{	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    				id: 'mapbox/streets-v11',accessToken: 'pk.eyJ1IjoiaGFuYXRvbGUiLCJhIjoiY2s2bGVwZ21jMDQ1ajNocnVzbnB0eXN0NyJ9.CwOTvqqLpO8EKvECEN4mDQ'
-    			}],
-    			'mapbox/satellite-v9':['https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
-				{	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    				id: 'mapbox/satellite-v9',accessToken: 'pk.eyJ1IjoiaGFuYXRvbGUiLCJhIjoiY2s2bGVwZ21jMDQ1ajNocnVzbnB0eXN0NyJ9.CwOTvqqLpO8EKvECEN4mDQ'
-    			}]
-			};
+				"OS France":['https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+			    maxZoom: 20,
+			    attribution: '&copy; Openstreetmap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+			}],
+			"MB Satellite":['http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+			    attribution: "<a href='https://www.mapbox.com/about/maps/' target='_blank'>&copy; Mapbox &copy; OpenStreetMap</a> <a class='mapbox-improve-map' href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a>",
+			    maxZoom: 20,
+			    id: 'mapbox.satellite',
+			    accessToken: 'pk.eyJ1IjoiZnk5NSIsImEiOiJjanp6dDFjYzEwMGFnM21ydnE3MW10YTR5In0.eTKpo6v92oosMJ4piehCgQ'
+			}],
+			"MB Terrain":['http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+			    attribution: "<a href='https://www.mapbox.com/about/maps/' target='_blank'>&copy; Mapbox &copy; OpenStreetMap</a> <a class='mapbox-improve-map' href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a>",
+			    maxZoom: 20,
+			    id: 'mapbox.streets',
+			    accessToken: 'pk.eyJ1IjoiZnk5NSIsImEiOiJjanp6dDFjYzEwMGFnM21ydnE3MW10YTR5In0.eTKpo6v92oosMJ4piehCgQ'
+			}],
+			"MB Streets":['http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+			    attribution: "<a href='https://www.mapbox.com/about/maps/' target='_blank'>&copy; Mapbox &copy; OpenStreetMap</a> <a class='mapbox-improve-map' href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a>",
+			    maxZoom: 20,
+			    id: 'mapbox.streets-basic',
+			    accessToken: 'pk.eyJ1IjoiZnk5NSIsImEiOiJjanp6dDFjYzEwMGFnM21ydnE3MW10YTR5In0.eTKpo6v92oosMJ4piehCgQ'
+			}],
+			"MB Hybrid":['https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+			    attribution: "<a href='http://www.mapbox.com/about/maps/' target='_blank'>&copy; Mapbox &copy; OpenStreetMap</a> <a class='mapbox-improve-map' href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a>",
+			    maxZoom: 20,
+			    id: 'mapbox.streets-satellite',
+			    accessToken: 'pk.eyJ1IjoiZnk5NSIsImEiOiJjanp6dDFjYzEwMGFnM21ydnE3MW10YTR5In0.eTKpo6v92oosMJ4piehCgQ'
+			}]
+		};
 
-setTile();
+//setTile();
 mymap.on("click", mapClicked);
 document.querySelector("#clear").addEventListener("click", clear);
 document.querySelector("#pathbtn").addEventListener("click", function(e){setPen("path");});
@@ -191,10 +212,10 @@ function setPointcolor(color){
 }
 
 function setTile(){
-	let name = getValue("#tile").toLowerCase();
+	let name = getValue("#tile");
 	if(currentTile)
 		currentTile.remove();
-	currentTile = L.tileLayer(tiles[name][0], tiles[name][1]).addTo(mymap);
+	currentTile = L.tileLayer(tiles[name][0], tiles[name][1],{minZoom: 5, maxZoom: 20, maxNativeZoom: 20}).addTo(mymap);
 }
 
 function simulate(e){
